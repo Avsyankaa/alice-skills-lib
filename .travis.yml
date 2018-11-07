@@ -1,0 +1,40 @@
+os: linux
+sudo: false
+language: cpp
+
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - libstdc++-7-dev
+    - g++-7
+    update: true
+
+cache:
+  apt: true
+  directories:
+  - $HOME/.hunter
+
+env: CC_EVAL=gcc-7 CXX_EVAL=g++-7
+
+before_install:
+- export CXX=$CXX_EVAL
+- export CC=$CC_EVAL
+- pip install --user cpplint
+
+script:
+- files=`find . -name "*.cpp" -or -name "*.hpp" -or -name ".h" | grep -v "./tools/*"`
+# sanitaizer check
+- ( for file in $files; do cpplint --filter=-whitespace/braces,-whitespace/indent,-whitespace/comments $file || exit; done );
+- ./tools/polly/bin/polly --reconfig --toolchain sanitize-address --config Release --fwd CMAKE_EXE_LINKER="-fuse-ld=gold"
+# clang-check
+- ./tools/polly/bin/polly --reconfig --config Release --fwd CMAKE_EXE_LINKER="-fuse-ld=gold" CMAKE_EXPORT_COMPILE_COMMANDS=ON
+- ( for file in $files; do echo $file; clang-check -analyze $file -p _builds/default-Release || exit; done );
+# tests
+- export CTEST_OUTPUT_ON_FAILURE=true
+- ./tools/polly/bin/polly --reconfig --test --config Release --fwd CMAKE_EXE_LINKER="-fuse-ld=gold"
+
+notifications:
+  email: false
+

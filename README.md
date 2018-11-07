@@ -1,1 +1,1 @@
-# alice-skills-lib
+[![Build Status](https://travis-ci.com/Avsyankaa/alice-lib-new.svg?branch=new)](https://travis-ci.com/Avsyankaa/alice-lib-new)
