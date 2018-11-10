@@ -30,12 +30,15 @@ const char data[] = R"({
     })";
 
 TEST(AliceTest, ResponseSession) {
-	Alice::Session session(
-		4, "2eac4854-fce721f3-b845abba-20d60", "",
-		"AC9WC3DF6FCE052E45A4566A48E6B7193774B84814CE49A922E163B8B29881DC",
-		false);
-	EXPECT_EQ(session.ToJson().dump(),
-		R"({"message_id":4, "session_id":"2eac4854-fce721f3-b845abba-20d60","user_id":"AC9WC3DF6FCE052E45A4566A48E6B7193774B84814CE49A922E163B8B29881D"})");
+  Alice::Session session(
+      4, "2eac4854-fce721f3-b845abba-20d60", "",
+      "AC9WC3DF6FCE052E45A4566A48E6B7193774B84814CE49A922E163B8B29881DC",
+      false);
+  EXPECT_EQ(session.ToJson().dump(),
+            R"({"message_id":4,)"
+            R"("session_id":"2eac4854-fce721f3-b845abba-20d60","user_id":")"
+            R"(AC9WC3DF6FCE052E45A4566A48E6B7193774B84814CE49A922E163B8B29881DC)"
+            R"("})");
 }
 
 TEST(AliceTest, ResponseButtonPicture) {
@@ -53,7 +56,7 @@ TEST(AliceTest, ResponseCard) {
             R"({"button":{"payload":null,"text":"Print on )"
             R"(button","url":"http://example.com/)"
             R"("},"description":"Description of )"
-            R"(image","image_id":"102785846r960da47f60207e924","title":"Title )"
+            R"(image","image_id":"1027858/46r960da47f60207e924","title":"Title )"
             R"(for image","type":"BigImage"})");
 }
 
@@ -89,9 +92,9 @@ TEST(AliceTest, ResponseButtonArray) {
             R"("}],"card":{"button":{"payload":null,"text":"Print on )"
             R"(button","url":"http://example.com/)"
             R"("},"description":"Description of )"
-            R"(image","image_id":"102785846r960da47f60207e924","title":"Title )"
+            R"(image","image_id":"1027858/46r960da47f60207e924","title":"Title )"
             R"(for image","type":"BigImage"},"end_session":false,"text":"Hi, )"
-            R"(dear friend","tts":\"Hi, dear )"
+            R"(dear friend","tts":"Hi, dear )"
             R"(friend"},"session":{"message_id":4,"session_id":"2eac4854-)"
             R"(fce721f3-b845abba-20d60","user_id":")"
             R"(AC9WC3DF6FCE052E45A4566A48E6B7193774B84814CE49A922E163B8B29881D)"
