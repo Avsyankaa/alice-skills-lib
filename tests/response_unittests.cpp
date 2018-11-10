@@ -35,17 +35,17 @@ TEST(AliceTest, ResponseSession) {
       "AC9WC3DF6FCE052E45A4566A48E6B7193774B84814CE49A922E163B8B29881DC",
       false);
   EXPECT_EQ(session.ToJson().dump(),
-            R"({\"message_id\":4,\"session_id\":\"2eac4854-fce721f3-"
-              "b845abba-20d60\",\"user_id\":"
-              "\"AC9WC3DF6FCE052E45A4566A48E6B7193774B84814CE49A922E1"
-              "63B8B29881DC\"})");
+            R"({"message_id":4,"session_id":"2eac4854-fce721f3-b845abba-20d60")"
+            R"(,"user_id":")"
+            R"(AC9WC3DF6FCE052E45A4566A48E6B7193774B84814CE49A922E163B8B29881D)"
+            R"(C"})");
 }
 
 TEST(AliceTest, ResponseButtonPicture) {
   Alice::ButtonPicture button("Print on button", "http://example.com/", {});
   EXPECT_EQ(button.ToJson().dump(),
-            R"({\"payload\":null,\"text\":\"Print on "
-              "button\",\"url\":\"http://example.com/\"})");
+            R"({"payload":null,"text":"Print on )"
+            R"(button","url":"http://example.com/"})");
 }
 
 TEST(AliceTest, ResponseCard) {
@@ -53,19 +53,18 @@ TEST(AliceTest, ResponseCard) {
   Alice::Card card("BigImage", "1027858/46r960da47f60207e924",
                    "Title for image", "Description of image", button);
   EXPECT_EQ(card.ToJson().dump(),
-            R"({\"button\":{\"payload\":null,\"text\":\"Print on "
-              "button\",\"url\":\"http://example.com/"
-              "\"},\"description\":\"Description of "
-              "image\",\"image_id\":\"1027858/"
-              "46r960da47f60207e924\",\"title\":\"Title for "
-              "image\",\"type\":\"BigImage\"})");
+            R"({"button":{"payload":null,"text":"Print on )"
+            R"(button","url":"http://example.com/)"
+            R"("},"description":"Description of )"
+            R"(image","image_id":"102785846r960da47f60207e924","title":"Title )"
+            R"(for image","type":"BigImage"})");
 }
 
 TEST(AliceTest, ResponseButton) {
   Alice::Button button("Print on button", {}, "http://example.com/", true);
   EXPECT_EQ(button.ToJson().dump(),
-            R"({\"hide\":true,\"payload\":null,\"title\":\"Print on "
-              "button\",\"url\":\"http://example.com/\"})");
+            R"({"hide":true,"payload":null,"title":"Print on )"
+            R"(button","url":"http://example.com/"})");
 }
 
 TEST(AliceTest, ResponseButtonArray) {
@@ -86,22 +85,18 @@ TEST(AliceTest, ResponseButtonArray) {
   response.SetTts("Hi, dear friend");
   response.SetEndSession(false);
   response.SetVersion("1.0");
-  EXPECT_EQ(
-      response.ToString(),
-      R"({\"response\":{\"buttons\":[{\"hide\":true,\"payload\":null,\"title\":"
-        "\"Print on "
-        "button\",\"url\":\"http://example.com/"
-        "\"}],\"card\":{\"button\":{\"payload\":null,\"text\":\"Print on "
-        "button\",\"url\":\"http://example.com/"
-        "\"},\"description\":\"Description "
-        "of "
-        "image\",\"image_id\":\"1027858/"
-        "46r960da47f60207e924\",\"title\":\"Title "
-        "for "
-        "image\",\"type\":\"BigImage\"},\"end_session\":false,\"text\":\"Hi, "
-        "dear friend\",\"tts\":\"Hi, dear "
-        "friend\"},\"session\":{\"message_id\":4,\"session_id\":\"2eac4854-"
-        "fce721f3-b845abba-20d60\",\"user_id\":"
-        "\"AC9WC3DF6FCE052E45A4566A48E6B7193774B84814CE49A922E163B8B29881DC\"},"
-        "\"version\":\"1.0\"})");
+  EXPECT_EQ(response.ToString(),
+            R"({"response":{"buttons":[{"hide":true,"payload":null,"title":")"
+            R"(Print on )"
+            R"(button","url":"http://example.com/)"
+            R"("}],"card":{"button":{"payload":null,"text":"Print on )"
+            R"(button","url":"http://example.com/)"
+            R"("},"description":"Description of )"
+            R"(image","image_id":"102785846r960da47f60207e924","title":"Title )"
+            R"(for image","type":"BigImage"},"end_session":false,"text":"Hi, )"
+            R"(dear friend","tts":\"Hi, dear )"
+            R"(friend"},"session":{"message_id":4,"session_id":"2eac4854-)"
+            R"(fce721f3-b845abba-20d60","user_id":")"
+            R"(AC9WC3DF6FCE052E45A4566A48E6B7193774B84814CE49A922E163B8B29881D)"
+            R"(C"},"version":"1.0"})");
 }
