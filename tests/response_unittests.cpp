@@ -35,9 +35,7 @@ TEST(AliceTest, ResponseSession) {
 		"AC9WC3DF6FCE052E45A4566A48E6B7193774B84814CE49A922E163B8B29881DC",
 		false);
 	EXPECT_EQ(session.ToJson().dump(),
-		R"({"message_id":4,
-         "session_id":"2eac4854-fce721f3-b845abba-20d60",
-         "user_id":"AC9WC3DF6FCE052E45A4566A48E6B7193774B84814CE49A922E163B8B29881D"})");
+		R"({"message_id":4, "session_id":"2eac4854-fce721f3-b845abba-20d60","user_id":"AC9WC3DF6FCE052E45A4566A48E6B7193774B84814CE49A922E163B8B29881D"})");
 }
 
 TEST(AliceTest, ResponseButtonPicture) {
