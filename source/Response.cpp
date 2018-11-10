@@ -6,15 +6,19 @@ using nlohmann::json;
 
 namespace Alice {
 
-void Response::SetText(std::string text) { text_ = text; }
+void Response::SetText(std::string text) { text_ = std::move(text); }
 
-void Response::SetTts(std::string tts) { tts_ = tts; }
+void Response::SetTts(std::string tts) { tts_ = std::move(tts); }
 
-void Response::SetVersion(std::string version) { version_ = version; }
+void Response::SetVersion(std::string version) {
+  version_ = std::move(version);
+}
 
 void Response::SetEndSession(bool end_session) { end_session_ = end_session; }
 
-void Response::PushButton(Button button) { buttons_ref_.push_back(button); }
+void Response::PushButton(Button button) {
+  buttons_ref_.push_back(std::move(button));
+}
 
 void Response::SetSession(Session session) { session_ = session; }
 
@@ -22,7 +26,6 @@ void Response::SetCard(Card card) { card_ = card; }
 
 std::string Response::ToString() {
   nlohmann::json response_small;
-  nlohmann::json session;
   nlohmann::json response;
   response_small["text"] = text_;
   response_small["tts"] = tts_;
@@ -34,7 +37,7 @@ std::string Response::ToString() {
   for (unsigned i = 0; i < buttons_ref_.size(); ++i) {
     buttons_array.push_back(buttons_ref_[i].ToJson());
   }
-  response_small["buttons"] = buttons_array;
+  response_small["buttons"] = std::move(buttons_array);
   response["response"] = response_small;
   return response.dump();
 }

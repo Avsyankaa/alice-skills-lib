@@ -4,6 +4,7 @@
 #define INCLUDES_SESSION_HPP_
 
 #include <string>
+
 #include <nlohmann/json.hpp>
 #include <boost/optional.hpp>
 
@@ -14,7 +15,7 @@ public:
   Session() = default;
   Session(size_t message_id, std::string session_id, std::string skill_id,
           std::string user_id, bool is_new);
-
+  Session(size_t message_id, std::string session_id, std::string user_id);
   nlohmann::json ToJson();
   bool IsNew() const { return is_new_; }
   size_t MessageId() const { return message_id_; }

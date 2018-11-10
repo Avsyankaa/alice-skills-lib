@@ -21,14 +21,14 @@ namespace Alice {
 class Response {
 public:
   Response() {}
-  void SetSession(Session);
-  void SetVersion(std::string);
-  void SetCard(Card);
-  void PushButton(Button);
+  void SetSession(Session session);
+  void SetVersion(std::string version);
+  void SetCard(Card card);
+  void PushButton(Button button);
   std::string ToString();
-  void SetText(std::string);
-  void SetTts(std::string);
-  void SetEndSession(bool);
+  void SetText(std::string text);
+  void SetTts(std::string tts);
+  void SetEndSession(bool end_session);
 
 private:
   std::string version_;

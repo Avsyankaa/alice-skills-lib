@@ -30,7 +30,8 @@ add_executable(alice_tests
   source/Button.cpp
   source/Card.cpp
   source/ButtonPicture.cpp
-  tests/test.cpp
+  tests/request_unittests.cpp
+  tests/response_unittests.cpp
 )
 
 target_include_directories(alice_tests PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/includes)

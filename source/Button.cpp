@@ -4,8 +4,8 @@
 
 namespace Alice {
 
-Button::Button(const std::string &title, const nlohmann::json &payload,
-               const std::string &url, const bool hide)
+Button::Button(std::string title, nlohmann::json payload, std::string url,
+               bool hide)
     : title_(std::move(title)), payload_(payload), url_(std::move(url)),
       hide_(hide) {}
 
