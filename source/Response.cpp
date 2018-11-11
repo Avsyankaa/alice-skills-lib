@@ -20,9 +20,9 @@ void Response::PushButton(Button button) {
   buttons_ref_.push_back(std::move(button));
 }
 
-void Response::SetSession(Session session) { session_ = session; }
+void Response::SetSession(Session session) { session_ = std::move(session); }
 
-void Response::SetCard(Card card) { card_ = card; }
+void Response::SetCard(Card card) { card_ = std::move(card); }
 
 std::string Response::ToString() {
   nlohmann::json response_small;
@@ -38,7 +38,7 @@ std::string Response::ToString() {
     buttons_array.push_back(buttons_ref_[i].ToJson());
   }
   response_small["buttons"] = std::move(buttons_array);
-  response["response"] = response_small;
+  response["response"] = std::move(response_small);
   return response.dump();
 }
 } // namespace Alice
