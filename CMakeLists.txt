@@ -22,6 +22,9 @@ find_package(nlohmann_json CONFIG REQUIRED)
 hunter_add_package(Boost)
 find_package(Boost CONFIG REQUIRED)
 
+hunter_add_package(Beast)
+find_package(Beast CONFIG REQUIRED)
+
 add_executable(alice_tests
   source/Request.cpp
   source/Meta.cpp
