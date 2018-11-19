@@ -25,7 +25,7 @@ find_package(Boost CONFIG REQUIRED)
 hunter_add_package(Beast)
 find_package(Beast CONFIG REQUIRED)
 
-add_executable(alice_tests
+add_executable(alice_main
   source/Request.cpp
   source/Meta.cpp
   source/Session.cpp
@@ -33,13 +33,12 @@ add_executable(alice_tests
   source/Button.cpp
   source/Card.cpp
   source/ButtonPicture.cpp
-  tests/request_unittests.cpp
-  tests/response_unittests.cpp
+  source/main.cpp
 )
 
-target_include_directories(alice_tests PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/includes)
-target_link_libraries(alice_tests GTest::main nlohmann_json::nlohmann_json Boost::boost)
+target_include_directories(alice_main PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/includes)
+target_link_libraries(alice_main GTest::main nlohmann_json::nlohmann_json Boost::boost)
 
 enable_testing()
-add_test(NAME tests COMMAND alice_tests)
+add_test(NAME tests COMMAND alice_main)
 
