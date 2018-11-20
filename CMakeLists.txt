@@ -11,7 +11,6 @@ HunterGate(
 )
 
 project(alice)
-string(APPEND CMAKE_CXX_FLAGS "-Wall -Wextra -Wno-unused-command-line-argument -Wnon-virtual-dtor -pedantic")
 
 hunter_add_package(GTest)
 find_package(GTest CONFIG REQUIRED)
@@ -25,7 +24,7 @@ find_package(Boost CONFIG REQUIRED)
 hunter_add_package(Beast)
 find_package(Beast CONFIG REQUIRED)
 
-add_executable(alice_main
+add_executable(alice_tests
   source/Request.cpp
   source/Meta.cpp
   source/Session.cpp
@@ -36,9 +35,9 @@ add_executable(alice_main
   source/main.cpp
 )
 
-target_include_directories(alice_main PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/includes)
-target_link_libraries(alice_main GTest::main nlohmann_json::nlohmann_json Boost::boost)
+target_include_directories(alice_tests PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/includes)
+target_link_libraries(alice_tests GTest::main nlohmann_json::nlohmann_json Boost::boost Boost::system)
 
 enable_testing()
-add_test(NAME tests COMMAND alice_main)
+add_test(NAME tests COMMAND alice_tests)
 

@@ -33,11 +33,11 @@ struct send_lambda {
   template <class Body, class Allocator, class Send>
   void handle_request(http::request<Body, http::basic_fields<Allocator>>&& req,
                       Send&& send) {
-    std::string request{req.body()};
-    std::string response;
-    callback_(request, response);
+    Alice::Request alice_request(req.body());  // тут создаете Request
+    Alice::Response alice_response(alice_request);  // тут Response
+    callback_(alice_request, alice_response);
     http::response<http::string_body> res{http::status::ok, req.version()};
-    res.body() = response;
+    res.body() = alice_response.ToString();  // вот тут ToString
     res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
     res.set(http::field::content_type, "application/json");
     res.keep_alive(req.keep_alive());
@@ -46,7 +46,7 @@ struct send_lambda {
   }
 
    void setCallback(
-      std::function<void(const std::string& request, std::string& response)>
+      std::function<void(const Alice::Request& request, Alice::Response& response)>
           callback) {
     callback_ = std::move(callback);
   }
@@ -72,7 +72,7 @@ struct send_lambda {
   }
 
   private:
-  std::function<void(const std::string& request, std::string& response)>
+  std::function<void(const Alice::Request& request, Alice::Response& response)>
       callback_;
   void do_session(tcp::socket&& socket,
                   std::shared_ptr<std::string const> const& doc_root) {

@@ -23,8 +23,7 @@ public:
   Response(Request request);
   void SetCard(Card card);
   void PushButton(Button button);
-  std::string WithImageToString();
-  std::string WithoutImageToString();
+  std::string ToString();
   void SetText(std::string text);
   void SetTts(std::string tts);
   void SetEndSession(bool end_session);
@@ -39,6 +38,7 @@ private:
   std::string tts_;
   std::vector<Button> buttons_ref_;
   Card card_;
+  bool is_image_on = false;
 };
 
 } // namespace Alice
