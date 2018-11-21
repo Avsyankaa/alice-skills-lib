@@ -10,16 +10,16 @@
 #include <boost/optional.hpp>
 #include <nlohmann/json.hpp>
 
-#include "Request.hpp"
 #include "Button.hpp"
 #include "ButtonPicture.hpp"
 #include "Card.hpp"
+#include "Request.hpp"
 #include "Session.hpp"
 
 namespace Alice {
 
 class Response {
-public:
+ public:
   Response(Request request);
   void SetCard(Card card);
   void PushButton(Button button);
@@ -28,7 +28,7 @@ public:
   void SetTts(std::string tts);
   void SetEndSession(bool end_session);
 
-private:
+ private:
   void SetVersion(std::string version);
   void SetSession(Session session);
   std::string version_;
@@ -38,9 +38,9 @@ private:
   std::string tts_;
   std::vector<Button> buttons_ref_;
   Card card_;
-  bool is_image_on = false;
+  bool is_image_on_ = false;
 };
 
-} // namespace Alice
+}  // namespace Alice
 
-#endif // INCLUDES_RESPONSE_HPP_
+#endif  // INCLUDES_RESPONSE_HPP_

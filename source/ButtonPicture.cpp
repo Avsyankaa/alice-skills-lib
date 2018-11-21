@@ -3,7 +3,8 @@
 #include <ButtonPicture.hpp>
 
 namespace Alice {
-ButtonPicture::ButtonPicture(std::string text, std::string url,
+ButtonPicture::ButtonPicture(std::string text,
+                             std::string url,
                              nlohmann::json payload)
     : text_(std::move(text)), url_(std::move(url)), payload_(payload) {}
 
@@ -15,4 +16,4 @@ nlohmann::json ButtonPicture::ToJson() {
   return button_picture;
 }
 
-} // namespace Alice
+}  // namespace Alice

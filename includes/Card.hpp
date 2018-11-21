@@ -12,13 +12,16 @@
 namespace Alice {
 
 class Card {
-public:
+ public:
   Card() {}
-  Card(std::string type, std::string image_id, std::string title,
-       std::string description, ButtonPicture button_picture);
+  Card(std::string type,
+       std::string image_id,
+       std::string title,
+       std::string description,
+       ButtonPicture button_picture);
   nlohmann::json ToJson();
 
-private:
+ private:
   std::string type_;
   std::string image_id_;
   std::string title_;
@@ -26,6 +29,6 @@ private:
   ButtonPicture button_picture_;
 };
 
-} // namespace Alice
+}  // namespace Alice
 
-#endif // INCLUDES_CARD_HPP_
+#endif  // INCLUDES_CARD_HPP_

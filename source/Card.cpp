@@ -4,10 +4,15 @@
 
 namespace Alice {
 
-Card::Card(std::string type, std::string image_id, std::string title,
-           std::string description, ButtonPicture button_picture)
-    : type_(std::move(type)), image_id_(std::move(image_id)),
-      title_(std::move(title)), description_(std::move(description)),
+Card::Card(std::string type,
+           std::string image_id,
+           std::string title,
+           std::string description,
+           ButtonPicture button_picture)
+    : type_(std::move(type)),
+      image_id_(std::move(image_id)),
+      title_(std::move(title)),
+      description_(std::move(description)),
       button_picture_(std::move(button_picture)) {}
 
 nlohmann::json Card::ToJson() {
@@ -20,4 +25,4 @@ nlohmann::json Card::ToJson() {
   return card;
 }
 
-} // namespace Alice
+}  // namespace Alice

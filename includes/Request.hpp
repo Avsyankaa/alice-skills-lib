@@ -16,11 +16,11 @@
 namespace Alice {
 
 class Request {
-public:
+ public:
   enum class Type { SimpleUtterance, ButtonPressed };
-  explicit Request(const std::string &input_data);
-  const Alice::Meta &Meta() const { return meta_; }
-  const Alice::Session &Session() const { return session_; }
+  explicit Request(const std::string& input_data);
+  const Alice::Meta& Meta() const { return meta_; }
+  const Alice::Session& Session() const { return session_; }
   std::string Version() const { return version_; }
   std::string Command() const { return command_; }
   std::string OriginalUtterance() const { return original_utterance_; }
@@ -28,7 +28,7 @@ public:
   bool IsDangerousContext() const { return is_dangerous_context_; }
   nlohmann::json Payload() const { return payload_; }
 
-private:
+ private:
   Alice::Meta meta_;
   Alice::Session session_;
   std::string command_;
@@ -39,6 +39,6 @@ private:
   bool is_dangerous_context_ = false;
 };
 
-} // namespace Alice
+}  // namespace Alice
 
-#endif // INCLUDES_REQUEST_HPP_
+#endif  // INCLUDES_REQUEST_HPP_

@@ -9,16 +9,16 @@
 
 namespace Alice {
 class Button {
-public:
+ public:
   Button(std::string title, nlohmann::json payload, std::string url, bool hide);
   nlohmann::json ToJson();
 
-private:
+ private:
   std::string title_;
   nlohmann::json payload_;
   std::string url_;
   bool hide_;
 };
-} // namespace Alice
+}  // namespace Alice
 
-#endif // INCLUDES_BUTTON_HPP_
+#endif  // INCLUDES_BUTTON_HPP_

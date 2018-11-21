@@ -32,11 +32,26 @@ add_executable(alice_tests
   source/Button.cpp
   source/Card.cpp
   source/ButtonPicture.cpp
+  tests/request_unittests.cpp
+  tests/response_unittests.cpp
+)
+
+add_executable(alice_main
+  source/Request.cpp
+  source/Meta.cpp
+  source/Session.cpp
+  source/Response.cpp
+  source/Button.cpp
+  source/Card.cpp
+  source/ButtonPicture.cpp
   source/main.cpp
 )
 
 target_include_directories(alice_tests PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/includes)
+target_include_directories(alice_main PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/includes)
+
 target_link_libraries(alice_tests GTest::main nlohmann_json::nlohmann_json Boost::boost Boost::system)
+target_link_libraries(alice_main nlohmann_json::nlohmann_json Boost::boost Boost::system)
 
 enable_testing()
 add_test(NAME tests COMMAND alice_tests)

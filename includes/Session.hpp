@@ -5,16 +5,19 @@
 
 #include <string>
 
-#include <nlohmann/json.hpp>
 #include <boost/optional.hpp>
+#include <nlohmann/json.hpp>
 
 namespace Alice {
 
 class Session {
-public:
+ public:
   Session() = default;
-  Session(size_t message_id, std::string session_id, std::string skill_id,
-          std::string user_id, bool is_new);
+  Session(size_t message_id,
+          std::string session_id,
+          std::string skill_id,
+          std::string user_id,
+          bool is_new);
   Session(size_t message_id, std::string session_id, std::string user_id);
   nlohmann::json ToJson();
   bool IsNew() const { return is_new_; }
@@ -23,7 +26,7 @@ public:
   std::string SkillId() const { return skill_id_; }
   std::string UserId() const { return user_id_; }
 
-private:
+ private:
   size_t message_id_;
   std::string session_id_;
   std::string skill_id_;
@@ -31,6 +34,6 @@ private:
   bool is_new_ = false;
 };
 
-} // namespace Alice
+}  // namespace Alice
 
-#endif // INCLUDES_SESSION_HPP_
+#endif  // INCLUDES_SESSION_HPP_

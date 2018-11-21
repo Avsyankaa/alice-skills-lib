@@ -2,6 +2,7 @@
 
 #include <gtest/gtest.h>
 
+#include <Request.hpp>
 #include <Response.hpp>
 
 const char data[] = R"({
@@ -34,11 +35,12 @@ TEST(AliceTest, ResponseSession) {
       4, "2eac4854-fce721f3-b845abba-20d60", "",
       "AC9WC3DF6FCE052E45A4566A48E6B7193774B84814CE49A922E163B8B29881DC",
       false);
-  EXPECT_EQ(session.ToJson().dump(),
-            R"({"message_id":4,)"
-            R"("session_id":"2eac4854-fce721f3-b845abba-20d60","user_id":")"
-            R"(AC9WC3DF6FCE052E45A4566A48E6B7193774B84814CE49A922E163B8B29881DC)"
-            R"("})");
+  EXPECT_EQ(
+      session.ToJson().dump(),
+      R"({"message_id":4,)"
+      R"("session_id":"2eac4854-fce721f3-b845abba-20d60","user_id":")"
+      R"(AC9WC3DF6FCE052E45A4566A48E6B7193774B84814CE49A922E163B8B29881DC)"
+      R"("})");
 }
 
 TEST(AliceTest, ResponseButtonPicture) {
@@ -52,12 +54,13 @@ TEST(AliceTest, ResponseCard) {
   Alice::ButtonPicture button("Print on button", "http://example.com/", {});
   Alice::Card card("BigImage", "1027858/46r960da47f60207e924",
                    "Title for image", "Description of image", button);
-  EXPECT_EQ(card.ToJson().dump(),
-            R"({"button":{"payload":null,"text":"Print on )"
-            R"(button","url":"http://example.com/)"
-            R"("},"description":"Description of )"
-            R"(image","image_id":"1027858/46r960da47f60207e924","title":"Title )"
-            R"(for image","type":"BigImage"})");
+  EXPECT_EQ(
+      card.ToJson().dump(),
+      R"({"button":{"payload":null,"text":"Print on )"
+      R"(button","url":"http://example.com/)"
+      R"("},"description":"Description of )"
+      R"(image","image_id":"1027858/46r960da47f60207e924","title":"Title )"
+      R"(for image","type":"BigImage"})");
 }
 
 TEST(AliceTest, ResponseButton) {
@@ -69,34 +72,30 @@ TEST(AliceTest, ResponseButton) {
 
 TEST(AliceTest, ResponseButtonArray) {
   Alice::Button button("Print on button", {}, "http://example.com/", true);
-  Alice::Response response;
+  Alice::Request request(data);
+  Alice::Response response(request);
   response.PushButton(button);
-  Alice::Session session(
-      4, "2eac4854-fce721f3-b845abba-20d60", "",
-      "AC9WC3DF6FCE052E45A4566A48E6B7193774B84814CE49A922E163B8B29881DC",
-      false);
   Alice::ButtonPicture button_picture("Print on button", "http://example.com/",
                                       {});
   Alice::Card card("BigImage", "1027858/46r960da47f60207e924",
                    "Title for image", "Description of image", button_picture);
-  response.SetSession(session);
   response.SetCard(card);
   response.SetText("Hi, dear friend");
   response.SetTts("Hi, dear friend");
   response.SetEndSession(false);
-  response.SetVersion("1.0");
-  EXPECT_EQ(response.ToString(),
-            R"({"response":{"buttons":[{"hide":true,"payload":null,"title":")"
-            R"(Print on )"
-            R"(button","url":"http://example.com/)"
-            R"("}],"card":{"button":{"payload":null,"text":"Print on )"
-            R"(button","url":"http://example.com/)"
-            R"("},"description":"Description of )"
-            R"(image","image_id":"1027858/46r960da47f60207e924","title":"Title )"
-            R"(for image","type":"BigImage"},"end_session":false,"text":"Hi, )"
-            R"(dear friend","tts":"Hi, dear )"
-            R"(friend"},"session":{"message_id":4,"session_id":"2eac4854-)"
-            R"(fce721f3-b845abba-20d60","user_id":")"
-            R"(AC9WC3DF6FCE052E45A4566A48E6B7193774B84814CE49A922E163B8B29881D)"
-            R"(C"},"version":"1.0"})");
+  EXPECT_EQ(
+      response.ToString(),
+      R"({"response":{"buttons":[{"hide":true,"payload":null,"title":")"
+      R"(Print on )"
+      R"(button","url":"http://example.com/)"
+      R"("}],"card":{"button":{"payload":null,"text":"Print on )"
+      R"(button","url":"http://example.com/)"
+      R"("},"description":"Description of )"
+      R"(image","image_id":"1027858/46r960da47f60207e924","title":"Title )"
+      R"(for image","type":"BigImage"},"end_session":false,"text":"Hi, )"
+      R"(dear friend","tts":"Hi, dear )"
+      R"(friend"},"session":{"message_id":5,"session_id":"2eac4854-)"
+      R"(fce721f3-b845abba-20d60","user_id":")"
+      R"(AC9WC3DF6FCE052E45A4566A48E6B7193774B84814CE49A922E163B8B29881D)"
+      R"(C"},"version":"1.0"})");
 }

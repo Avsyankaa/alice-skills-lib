@@ -4,9 +4,13 @@
 
 namespace Alice {
 
-Button::Button(std::string title, nlohmann::json payload, std::string url,
+Button::Button(std::string title,
+               nlohmann::json payload,
+               std::string url,
                bool hide)
-    : title_(std::move(title)), payload_(payload), url_(std::move(url)),
+    : title_(std::move(title)),
+      payload_(payload),
+      url_(std::move(url)),
       hide_(hide) {}
 
 nlohmann::json Button::ToJson() {
@@ -18,4 +22,4 @@ nlohmann::json Button::ToJson() {
   return button;
 }
 
-} // namespace Alice
+}  // namespace Alice

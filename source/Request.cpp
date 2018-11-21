@@ -6,7 +6,7 @@ using nlohmann::json;
 
 namespace Alice {
 
-Request::Request(const std::string &input_data) {
+Request::Request(const std::string& input_data) {
   auto request_obj = json::parse(input_data);
 
   if (request_obj.find("meta") == request_obj.end() ||
@@ -34,10 +34,10 @@ Request::Request(const std::string &input_data) {
 
   version_ = request_obj["version"];
 
-  const json &request = request_obj["request"];
+  const json& request = request_obj["request"];
   payload_ = request["payload"];
   if (request.find("markup") != request.end())
     is_dangerous_context_ = true;
 }
 
-} // namespace Alice
+}  // namespace Alice

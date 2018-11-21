@@ -31,7 +31,7 @@ const char data[] = R"({
 
 TEST(AliceTest, MetaFromRequest) {
   Alice::Request request(data);
-  const auto &meta = request.Meta();
+  const auto& meta = request.Meta();
   EXPECT_EQ(meta.Locale(), "ru-RU");
   EXPECT_EQ(meta.Timezone(), "Europe/Moscow");
   EXPECT_EQ(meta.ClientId(), "ru.yandex.searchplugin/5.80");
@@ -46,7 +46,7 @@ TEST(AliceTest, Meta) {
 
 TEST(AliceTest, SessionFromRequest) {
   Alice::Request request(data);
-  const auto &session = request.Session();
+  const auto& session = request.Session();
   EXPECT_EQ(session.IsNew(), true);
   EXPECT_EQ(session.MessageId(), 4);
   EXPECT_EQ(session.SessionId(), "2eac4854-fce721f3-b845abba-20d60");
