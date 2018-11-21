@@ -11,17 +11,21 @@
 #include <boost/beast/version.hpp>
 #include <boost/config.hpp>
 #include <boost/system/error_code.hpp>
+
 using tcp = boost::asio::ip::tcp;
 namespace http = boost::beast::http;
+
 template <class Stream>
 struct send_lambda {
   Stream& stream_;
   bool& close_;
   boost::system::error_code& ec_;
+  
   explicit send_lambda(Stream& stream,
                        bool& close,
                        boost::system::error_code& ec)
       : stream_(stream), close_(close), ec_(ec) {}
+
   template <bool isRequest, class Body, class Fields>
   void operator()(http::message<isRequest, Body, Fields>&& msg) const {
     close_ = msg.need_eof();
@@ -29,8 +33,10 @@ struct send_lambda {
     http::write(stream_, sr, ec_);
   }
 };
+
 struct Skill {
   Skill() {}
+  
   template <class Body, class Allocator, class Send>
   void handle_request(http::request<Body, http::basic_fields<Allocator>>&& req,
                       Send&& send) {
@@ -46,14 +52,14 @@ struct Skill {
     return send(std::move(res));
   }
 
-  void setCallback(std::function<void(const Alice::Request& request,
+  void set_callback(std::function<void(const Alice::Request& request,
                                       Alice::Response& response)> callback) {
     callback_ = std::move(callback);
   }
 
   void run() {
     auto const address = boost::asio::ip::make_address("0.0.0.0");
-    auto const port_arg = getOSEnv("PORT", "5000");
+    auto const port_arg = get_os_env("PORT", "5000");
     auto const port = static_cast<unsigned short>(std::atoi(port_arg.c_str()));
     std::shared_ptr<std::string const> const doc_root_{
         std::make_shared<std::string>(".")};
@@ -62,7 +68,7 @@ struct Skill {
     for (;;) {
       tcp::socket socket_{ioc_};
       acceptor_.accept(socket_);
-      std::thread{&Skill::do_session, this, std::move(socket_), doc_root_}
+      std::thread{&Skill::do_session_, this, std::move(socket_), doc_root_}
           .detach();
     }
   }
@@ -70,7 +76,8 @@ struct Skill {
  private:
   std::function<void(const Alice::Request& request, Alice::Response& response)>
       callback_;
-  void do_session(tcp::socket&& socket,
+
+  void do_session_(tcp::socket&& socket,
                   std::shared_ptr<std::string const> const& doc_root) {
     bool close = false;
     boost::system::error_code ec;
@@ -92,10 +99,12 @@ struct Skill {
     }
     socket.shutdown(tcp::socket::shutdown_send, ec);
   }
+
   void fail(boost::system::error_code ec, char const* what) {
     std::cerr << what << ": " << ec.message() << "\n";
   }
-  std::string getOSEnv(boost::string_view name,
+
+  std::string get_os_env(boost::string_view name,
                        boost::string_view default_value) {
     const char* e = std::getenv(name.data());
     return e ? e : default_value.data();

@@ -20,7 +20,7 @@ namespace Alice {
 
 class Response {
  public:
-  Response(const Request& request);
+  explicit Response(const Request& request);
   void SetCard(Card card);
   void PushButton(Button button);
   std::string ToString();
