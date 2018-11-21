@@ -6,7 +6,7 @@ using nlohmann::json;
 
 namespace Alice {
 
-Response::Response(Request request) {
+Response::Response(const Request& request) {
   SetSession(request.Session());
   SetVersion(request.Version());
 }
@@ -31,7 +31,7 @@ void Response::PushButton(Button button) {
   buttons_ref_.push_back(std::move(button));
 }
 
-void Response::SetSession(Session session) {
+void Response::SetSession(const Session& session) {
   session_ =
       Session(session.MessageId() + 1, session.SessionId(), session.UserId());
 }

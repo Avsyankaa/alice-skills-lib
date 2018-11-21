@@ -20,7 +20,7 @@ namespace Alice {
 
 class Response {
  public:
-  Response(Request request);
+  Response(const Request& request);
   void SetCard(Card card);
   void PushButton(Button button);
   std::string ToString();
@@ -30,7 +30,7 @@ class Response {
 
  private:
   void SetVersion(std::string version);
-  void SetSession(Session session);
+  void SetSession(const Session& session);
   std::string version_;
   Session session_;
   bool end_session_;
