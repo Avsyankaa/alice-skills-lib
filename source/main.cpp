@@ -25,6 +25,6 @@ void my_awesome_callback(const Alice::Request& request,
 int main() {
   Skill s;
   s.SetCallback(my_awesome_callback);
-  s.run();
+  s.Run();
   return 0;
 }

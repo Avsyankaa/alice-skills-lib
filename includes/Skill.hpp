@@ -1,3 +1,8 @@
+// Copyright 2018 RomAsya
+
+#ifndef INCLUDES_SKILL_HPP_
+#define INCLUDES_SKILL_HPP_
+
 #include <cstdlib>
 #include <functional>
 #include <iostream>
@@ -38,6 +43,9 @@ class Skill {
  public:
   Skill() {}
 
+  using Callback = std::function<void(const Alice::Request& request,
+                                      Alice::Response& response)>;
+
   template <class Body, class Allocator, class Send>
   void HandleRequest(http::request<Body, http::basic_fields<Allocator>>&& req,
                      Send&& send) {
@@ -53,30 +61,25 @@ class Skill {
     return send(std::move(res));
   }
 
-  void SetCallback(std::function<void(const Alice::Request& request,
-                                      Alice::Response& response)> callback) {
+  void SetCallback(Callback callback) {
     callback_ = std::move(callback);
   }
 
-  void run() {
+  const void Run() {
     auto const address = boost::asio::ip::make_address("0.0.0.0");
     auto const port_arg = GetOSEnv("PORT", "5000");
     auto const port = static_cast<unsigned short>(std::atoi(port_arg.c_str()));
-    //std::shared_ptr<std::string const> const doc_root_{
-    //    std::make_shared<std::string>(".")};
     boost::asio::io_context ioc_{1};
     tcp::acceptor acceptor_{ioc_, {address, port}};
     for (;;) {
       tcp::socket socket_{ioc_};
       acceptor_.accept(socket_);
-      std::thread{&Skill::DoSession, this, std::move(socket_)}
-          .detach();
+      std::thread{&Skill::DoSession, this, std::move(socket_)}.detach();
     }
   }
 
  private:
-  std::function<void(const Alice::Request& request, Alice::Response& response)>
-      callback_;
+  Callback callback_;
 
   void DoSession(tcp::socket&& socket) {
     bool close = false;
@@ -110,3 +113,5 @@ class Skill {
     return e ? e : default_value.data();
   }
 };
+
+#endif  // INCLUDES_SKILL_HPP_

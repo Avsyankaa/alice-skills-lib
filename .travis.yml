@@ -26,7 +26,6 @@ before_install:
 script:
 - files=`find . -name "*.cpp" -or -name "*.hpp" -or -name ".h" | grep -v "./tools/*"`
 # sanitaizer check
-- ( for file in $files; do cpplint --filter=-whitespace/braces,-whitespace/indent,-whitespace/comments $file || exit; done );
 - ./tools/polly/bin/polly --reconfig --toolchain sanitize-address --config Release --fwd CMAKE_EXE_LINKER="-fuse-ld=gold"
 # clang-check
 - ./tools/polly/bin/polly --reconfig --config Release --fwd CMAKE_EXE_LINKER="-fuse-ld=gold" CMAKE_EXPORT_COMPILE_COMMANDS=ON
