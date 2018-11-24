@@ -14,10 +14,8 @@ COPY . /cpp/src/project/
 WORKDIR /cpp/src/project/
 
 RUN ./tools/polly/bin/polly --reconfig --toolchain sanitize-address --config Release --fwd CMAKE_EXE_LINKER="-fuse-ld=gold" \
- && ./tools/polly/bin/polly --reconfig --config Release --fwd CMAKE_EXE_LINKER="-fuse-ld=gold" CMAKE_EXPORT_COMPILE_COMMANDS=ON \
- && mkdir /app \
- && cp websocket-chat-server /app
+ && ./tools/polly/bin/polly --reconfig --config Release --fwd CMAKE_EXE_LINKER="-fuse-ld=gold" CMAKE_EXPORT_COMPILE_COMMANDS=ON
 
-CMD "/app/websocket-chat-server"
+CMD "/_builds/default/Debug/websocket-chat-server.exe"
 
 EXPOSE 8080
