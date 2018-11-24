@@ -25,9 +25,9 @@ before_install:
 - export CXX=$CXX_EVAL
 - export CC=$CC_EVAL
 - pip install --user cpplint
-- docker build -t alice_heroku . 
-- docker login -u $DOCKER_USER -p $DOCKER_PASS -e $DOCKER_EMAIL
-- docker push alice_heroku .
+# - docker build -t alice_heroku . 
+# - docker login -u $DOCKER_USER -p $DOCKER_PASS -e $DOCKER_EMAIL
+# - docker push alice_heroku .
 
 script:
 - files=`find . -name "*.cpp" -or -name "*.hpp" -or -name ".h" | grep -v "./tools/*"`
