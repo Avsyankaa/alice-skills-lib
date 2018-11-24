@@ -1,6 +1,9 @@
 os: linux
-sudo: false
+sudo: required
 language: cpp
+
+services:
+ - docker
 
 addons:
   apt:
@@ -22,6 +25,10 @@ before_install:
 - export CXX=$CXX_EVAL
 - export CC=$CC_EVAL
 - pip install --user cpplint
+- docker build -t source/ .
+- docker login -u $DOCKER_USER -p $DOCKER_PASS -e $DOCKER_EMAIL
+- docker push sourse/ .
+
 
 script:
 - files=`find . -name "*.cpp" -or -name "*.hpp" -or -name ".h" | grep -v "./tools/*"`
@@ -33,6 +40,8 @@ script:
 # tests
 - export CTEST_OUTPUT_ON_FAILURE=true
 - ./tools/polly/bin/polly --reconfig --test --config Release --fwd CMAKE_EXE_LINKER="-fuse-ld=gold"
+- docker ps -a; fi
+
 
 after_success:
   - heroku container:login
