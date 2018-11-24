@@ -41,7 +41,7 @@ void buy_elephant_callback(const Alice::Request& request,
     response.SetEndSession(false);
     return;
   }
-  if (request.Type() == Alice::Request::Type::SimpleUtterance) {
+  if (request.RequestType() == Alice::Request::Type::SimpleUtterance) {
   std::string title =
       "Everyone said " + request.Command() + "but you buy an elephant!";
   response.SetText(title);
