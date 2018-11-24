@@ -1,4 +1,4 @@
-FROM ubuntu:bionic
+FROM ubuntu:bionic 
 
 # Install tools required for the project
 RUN apt-get update \
