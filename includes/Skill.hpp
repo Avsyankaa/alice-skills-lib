@@ -61,11 +61,9 @@ class Skill {
     return send(std::move(res));
   }
 
-  void SetCallback(Callback callback) {
-    callback_ = std::move(callback);
-  }
+  void SetCallback(Callback callback) { callback_ = std::move(callback); }
 
-  const void Run() {
+  void Run() const {
     auto const address = boost::asio::ip::make_address("0.0.0.0");
     auto const port_arg = GetOSEnv("PORT", "5000");
     auto const port = static_cast<unsigned short>(std::atoi(port_arg.c_str()));
