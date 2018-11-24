@@ -6,7 +6,8 @@ RUN apt-get update \
     && apt-get install g++ -y \
     && apt-get install cmake -y \
     && apt-get install wget -y \
-    && apt-get install python3 -y
+    && apt-get install python3 -y \
+    && apt-get install clang -y
 
 # Copy the entire project and build it
 COPY . /cpp/src/project/ 
