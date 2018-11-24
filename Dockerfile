@@ -7,15 +7,6 @@ RUN apt-get update \
     && apt-get install cmake -y \
     && apt-get install wget -y 
 
-# Install Boost
-RUN cd /home \
-    && wget http://downloads.sourceforge.net/project/boost/boost/1.68.0/boost_1_68_0.tar.gz \
-    && tar xfz boost_1_68_0.tar.gz \
-    && rm boost_1_68_0.tar.gz \
-    && cd boost_1_68_0 \
-    && ./bootstrap.sh --with-libraries=system > /dev/null 2>&1 \
-    && ./b2 install > /dev/null 2>&1
-
 # Copy the entire project and build it
 COPY . /cpp/src/project/ 
 WORKDIR /cpp/src/project/
