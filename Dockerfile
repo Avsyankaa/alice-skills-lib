@@ -11,8 +11,8 @@ RUN apt-get update \
 COPY . /cpp/src/project/ 
 WORKDIR /cpp/src/project/
 
-RUN ./tools/polly/bin/polly --reconfig --toolchain sanitize-address --config Release --fwd CMAKE_EXE_LINKER="-fuse-ld=gold"
- && ./tools/polly/bin/polly --reconfig --config Release --fwd CMAKE_EXE_LINKER="-fuse-ld=gold" CMAKE_EXPORT_COMPILE_COMMANDS=ON
+RUN ./tools/polly/bin/polly --reconfig --toolchain sanitize-address --config Release --fwd CMAKE_EXE_LINKER="-fuse-ld=gold" \
+ && ./tools/polly/bin/polly --reconfig --config Release --fwd CMAKE_EXE_LINKER="-fuse-ld=gold" CMAKE_EXPORT_COMPILE_COMMANDS=ON \
  && mkdir /app \
  && cp websocket-chat-server /app
 
