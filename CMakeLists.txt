@@ -38,7 +38,7 @@ add_executable(alice_tests
   tests/response_unittests.cpp
 )
 
-add_executable(alice_main
+add_executable(websocket-chat-server
   source/Request.cpp
   source/Meta.cpp
   source/Session.cpp
@@ -50,10 +50,10 @@ add_executable(alice_main
 )
 
 target_include_directories(alice_tests PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/includes)
-target_include_directories(alice_main PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/includes)
+target_include_directories(websocket-chat-server PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/includes)
 
 target_link_libraries(alice_tests GTest::main nlohmann_json::nlohmann_json Boost::boost Boost::system)
-target_link_libraries(alice_main nlohmann_json::nlohmann_json Boost::boost Boost::system)
+target_link_libraries(websocket-chat-server nlohmann_json::nlohmann_json Boost::boost Boost::system)
 
 enable_testing()
 add_test(NAME tests COMMAND alice_tests)
