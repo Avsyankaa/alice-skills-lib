@@ -36,7 +36,7 @@ void buy_elephant_callback(const Alice::Request& request,
     }
     response.SetText(title);
     response.SetTts(title);
-    Alice::Button button("I give up", {"json"},
+    Alice::Button button("I give up", {},
                          "https://yandex.ru/images/"
                          "search?pos=1&img_url=https%3A%2F%2Fsummerboard.ru%"
                          "2Fimages%2Felephants_"
@@ -48,9 +48,13 @@ void buy_elephant_callback(const Alice::Request& request,
     response.SetEndSession(false);
     return;
   }
-  response.SetText("");
-  response.SetTts("");
-  response.SetEndSession(true);
+  else {
+    std::string title = "Good bye"; 
+    response.SetText(title);
+    response.SetTts(title);
+    response.SetEndSession(true);
+    return;
+  }
 }
 
 int main() {
