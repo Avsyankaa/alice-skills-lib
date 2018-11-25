@@ -47,7 +47,7 @@ void buy_elephant_callback(const Alice::Request& request,
   response.SetText(title);
   response.SetTts(title);
   Alice::Button button(
-      "I give up", {},
+      "I give up", {"json"},
       "https://yandex.ru/images/"
       "search?pos=1&img_url=https%3A%2F%2Fsummerboard.ru%2Fimages%2Felephants_"
       "wallpapers%2F39_elephant.jpg&text=%D1%84%D0%BE%D1%82%D0%BE%20%D1%81%D0%"
