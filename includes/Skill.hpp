@@ -9,6 +9,7 @@
 #include <memory>
 #include <string>
 #include <thread>
+#include <exception>
 
 #include <boost/asio/ip/tcp.hpp>
 #include <boost/beast/core.hpp>
@@ -49,6 +50,7 @@ class Skill {
   template <class Body, class Allocator, class Send>
   void HandleRequest(http::request<Body, http::basic_fields<Allocator>>&& req,
                      Send&& send) {
+    try {
     Alice::Request alice_request(req.body());
     Alice::Response alice_response(alice_request);
     callback_(alice_request, alice_response);
@@ -59,6 +61,17 @@ class Skill {
     res.keep_alive(req.keep_alive());
     res.prepare_payload();
     return send(std::move(res));
+	} 
+	catch (nlohmann::json::parse_error& e) {
+    http::response<http::string_body> res{http::status::ok, req.version()};
+    res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
+    res.set(http::field::content_type, "application/json"); 
+    res.keep_alive(req.keep_alive());
+    const char* data = "Hello, dear friend!!!";
+    res.body() = data;
+    res.prepare_payload();
+    return send(std::move(res));
+	}
   }
 
   void SetCallback(Callback callback) { callback_ = std::move(callback); }
