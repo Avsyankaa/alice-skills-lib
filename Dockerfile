@@ -13,11 +13,8 @@ RUN apt-get update \
 COPY . /cpp/src/project/ 
 WORKDIR /cpp/src/project/
 
-RUN ./tools/polly/bin/polly --reconfig --config Release --fwd CMAKE_EXE_LINKER="-fuse-ld=gold" CMAKE_EXPORT_COMPILE_COMMANDS=ON \
-&& ls \
-&& ls \
-&& ls 
+RUN ./tools/polly/bin/polly --reconfig --config Release --fwd CMAKE_EXE_LINKER="-fuse-ld=gold" CMAKE_EXPORT_COMPILE_COMMANDS=ON  
 
-CMD "/_builds/default-Release/websocket-chat-server"
+CMD "_builds/default-Release/websocket-chat-server"
 
 EXPOSE 8080
