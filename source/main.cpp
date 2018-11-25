@@ -26,7 +26,7 @@ void my_awesome_callback(const Alice::Request& request,
 
 void buy_elephant_callback(const Alice::Request& request,
                            Alice::Response& response) {
-  const auto& session = request.Session();
+  /*const auto& session = request.Session();
   if (session.IsNew() == true) {
     response.SetText("Hi, buy an elephant!");
     response.SetTts("Hi, buy an elephant!");
@@ -40,10 +40,10 @@ void buy_elephant_callback(const Alice::Request& request,
     response.PushButton(button);
     response.SetEndSession(false);
     return;
-  }
+  }*/
   if (request.RequestType() == Alice::Request::Type::SimpleUtterance) {
   std::string title =
-      "Everyone said " + request.Command() + "but you buy an elephant!";
+      "Everyone said " + request.Command() + ", but you buy an elephant!";
   response.SetText(title);
   response.SetTts(title);
   Alice::Button button(
