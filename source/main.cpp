@@ -26,10 +26,12 @@ void my_awesome_callback(const Alice::Request& request,
 
 void buy_elephant_callback(const Alice::Request& request,
                            Alice::Response& response) {
-  if (request.Command() == "") {
-      std::string title = "Buy an elephant!";
+   if (request.RequestType() == Alice::Request::Type::SimpleUtterance) {
+    std::string title;
+    if (request.Command() == "") {
+      title = "Buy an elephant!";
     } else {
-      std::string title =
+      title =
           "Everyone said " + request.Command() + ", but you buy an elephant!";
     }
     response.SetText(title);
