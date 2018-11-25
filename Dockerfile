@@ -15,6 +15,6 @@ WORKDIR /cpp/src/project/
 
 RUN ./tools/polly/bin/polly --reconfig --config Release --fwd CMAKE_EXE_LINKER="-fuse-ld=gold" CMAKE_EXPORT_COMPILE_COMMANDS=ON
 
-CMD "/_builds/default/Debug/websocket-chat-server.exe"
+CMD "/_builds/default-Release/websocket-chat-server"
 
 EXPOSE 8080
