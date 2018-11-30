@@ -39,6 +39,7 @@ class Response {
   std::vector<Button> buttons_ref_;
   Card card_;
   bool is_image_on_ = false;
+  bool is_text_on_ = false;
 };
 
 }  // namespace Alice
