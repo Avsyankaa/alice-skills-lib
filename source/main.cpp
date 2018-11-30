@@ -52,6 +52,7 @@ void buy_elephant_callback(const Alice::Request& request,
     response.SetText(title);
     response.SetTts(title);
     Alice::Button button("I give up", {"json"}, true);
+    response.PushButton(button);
   } else {
     Alice::ButtonPicture button_picture(
         "Elephant",
