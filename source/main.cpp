@@ -57,7 +57,7 @@ void buy_elephant_callback(const Alice::Request& request,
     Alice::ButtonPicture button_picture(
         "Elephant",
         "http://pngimg.com/uploads/elephants/elephants_PNG18808.png", {"json"});
-    Alice::Card card("BigImage", "937455/a2214b20c13459572d87", "", "",
+    Alice::Card card("BigImage", "213044/0bd9aa9bce3a08478953", "", "",
                      button_picture);
     response.SetCard(card);
     response.SetText("");

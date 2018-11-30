@@ -25,11 +25,11 @@ Request::Request(const std::string& input_data) {
       request_obj["session"]["session_id"], request_obj["session"]["skill_id"],
       request_obj["session"]["user_id"], request_obj["session"]["new"]);
 
-  command_ = request_obj["request"]["command"];
-  original_utterance_ = request_obj["request"]["original_utterance"];
-  if (request_obj["request"]["type"] == "SimpleUtterance")
+  if (request_obj["request"]["type"] == "SimpleUtterance") {
+    command_ = request_obj["request"]["command"];
+    original_utterance_ = request_obj["request"]["original_utterance"];
     type_ = Type::SimpleUtterance;
-  else
+  } else
     type_ = Type::ButtonPressed;
 
   version_ = request_obj["version"];
