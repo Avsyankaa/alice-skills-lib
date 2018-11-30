@@ -26,7 +26,22 @@ void my_awesome_callback(const Alice::Request& request,
 
 void buy_elephant_callback(const Alice::Request& request,
                            Alice::Response& response) {
-   if (request.RequestType() == Alice::Request::Type::SimpleUtterance) {
+  /*const auto& session = request.Session();
+  if (session.IsNew() == true) {
+    response.SetText("Hi, buy an elephant!");
+    response.SetTts("Hi, buy an elephant!");
+    Alice::Button button(
+        "Ok", {},
+        "https://yandex.ru/images/"
+        "search?pos=1&img_url=https%3A%2F%2Fsummerboard.ru%2Fimages%"
+        "2Felephants_wallpapers%2F39_elephant.jpg&text=%D1%84%D0%BE%D1%82%D0%"
+        "BE%20%D1%81%D0%BB%D0%BE%D0%BD%D0%B0&lr=213&rpt=simage",
+        true);
+    response.PushButton(button);
+    response.SetEndSession(false);
+    return;
+  }*/
+  if (request.RequestType() == Alice::Request::Type::SimpleUtterance) {
     std::string title;
     if (request.Command() == "") {
       title = "Buy an elephant!";
@@ -36,24 +51,19 @@ void buy_elephant_callback(const Alice::Request& request,
     }
     response.SetText(title);
     response.SetTts(title);
-    Alice::Button button("I give up", {},
-                         "https://yandex.ru/images/"
-                         "search?pos=1&img_url=https%3A%2F%2Fsummerboard.ru%"
-                         "2Fimages%2Felephants_"
-                         "wallpapers%2F39_elephant.jpg&text=%D1%84%D0%BE%D1%82%"
-                         "D0%BE%20%D1%81%D0%"
-                         "BB%D0%BE%D0%BD%D0%B0&lr=213&rpt=simage",
-                         true);
+    Alice::Button button("I give up", {"json"}, true);
+  } else {
+    Alice::ButtonPicture button_picture(
+        "Elephant",
+        "http://pngimg.com/uploads/elephants/elephants_PNG18808.png", {});
+    Alice::Card card("BigImage", "937455/a2214b20c13459572d87", "", "",
+                     button_picture);
+    response.SetCard(card);
     response.PushButton(button);
     response.SetEndSession(false);
-    return;
-  }
-  else {
-    std::string title = "Good bye"; 
-    response.SetText(title);
-    response.SetTts(title);
+    response.SetText("");
+    response.SetTts("");
     response.SetEndSession(true);
-    return;
   }
 }
 

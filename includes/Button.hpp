@@ -11,6 +11,7 @@ namespace Alice {
 class Button {
  public:
   Button(std::string title, nlohmann::json payload, std::string url, bool hide);
+  Button(std::string title, nlohmann::json payload, bool hide);
   nlohmann::json ToJson();
 
  private:
@@ -18,6 +19,7 @@ class Button {
   nlohmann::json payload_;
   std::string url_;
   bool hide_;
+  bool is_url_;
 };
 }  // namespace Alice
 
