@@ -51,11 +51,13 @@ std::string Response::ToString() {
   if (is_image_on_)
     response_small["card"] = card_.ToJson();
   response["session"] = session_.ToJson();
-  nlohmann::json buttons_array;
-  for (unsigned i = 0; i < buttons_ref_.size(); ++i) {
-    buttons_array.push_back(buttons_ref_[i].ToJson());
+  if (buttons_ref_.size() != 0) {
+    nlohmann::json buttons_array;
+    for (unsigned i = 0; i < buttons_ref_.size(); ++i) {
+      buttons_array.push_back(buttons_ref_[i].ToJson());
+    }
+    response_small["buttons"] = std::move(buttons_array);
   }
-  response_small["buttons"] = std::move(buttons_array);
   response["response"] = std::move(response_small);
   return response.dump();
 }
