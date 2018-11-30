@@ -59,7 +59,6 @@ void buy_elephant_callback(const Alice::Request& request,
     Alice::Card card("BigImage", "937455/a2214b20c13459572d87", "", "",
                      button_picture);
     response.SetCard(card);
-    response.PushButton(button);
     response.SetText("");
     response.SetTts("");
     response.SetEndSession(true);
