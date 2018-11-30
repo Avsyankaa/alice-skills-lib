@@ -60,7 +60,6 @@ void buy_elephant_callback(const Alice::Request& request,
                      button_picture);
     response.SetCard(card);
     response.PushButton(button);
-    response.SetEndSession(false);
     response.SetText("");
     response.SetTts("");
     response.SetEndSession(true);
