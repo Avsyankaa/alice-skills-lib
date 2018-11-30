@@ -12,7 +12,6 @@ HunterGate(
 )
 
 project(alice)
-string(APPEND CMAKE_CXX_FLAGS "-Wall -Wextra -Wno-unused-command-line-argument -Wnon-virtual-dtor -pedantic -pthread")
 
 hunter_add_package(GTest)
 find_package(GTest CONFIG REQUIRED)
