@@ -1,4 +1,4 @@
-
+// Copyright 2018 RomAsya
 #include <Request.hpp>
 #include <Response.hpp>
 #include <Skill.hpp>
