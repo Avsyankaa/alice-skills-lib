@@ -13,7 +13,6 @@ Response::Response(const Request& request) {
 
 void Response::SetText(std::string text) {
   text_ = std::move(text);
-  is_text_on_ = true;
 }
 
 void Response::SetTts(std::string tts) {
@@ -45,7 +44,7 @@ void Response::SetCard(Card card) {
 std::string Response::ToString() {
   nlohmann::json response_small;
   nlohmann::json response;
-  if (is_text_on_) {
+  if (!is_image_on_) {
     response_small["text"] = text_;
     response_small["tts"] = tts_;
   }
