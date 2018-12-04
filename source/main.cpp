@@ -44,14 +44,14 @@ void buy_elephant_callback(const Alice::Request& request,
   if (request.RequestType() == Alice::Request::Type::SimpleUtterance) {
     std::string title;
     if (request.Command() == "") {
-      title = "Купи слона!";
+      title = "РљСѓРїРё СЃР»РѕРЅР°!";
     } else {
       title =
-          "Все говорят " + request.Command() + ", а ты купи слона!";
+          "Р’СЃРµ РіРѕРІРѕСЂСЏС‚ " + request.Command() + ", Р° С‚С‹ РєСѓРїРё СЃР»РѕРЅР°!";
     }
     response.SetText(title);
     response.SetTts(title);
-    Alice::Button button("Я сдаюсь", {"json"}, true);
+    Alice::Button button("РЇ СЃРґР°СЋСЃСЊ", {"json"}, true);
     response.PushButton(button);
   } else {
     Alice::ButtonPicture button_picture(
