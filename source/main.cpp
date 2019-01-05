@@ -1,72 +1,137 @@
-// Copyright 2018 RomAsya
+// Copyright 2019 dankokin
 #include <Request.hpp>
 #include <Response.hpp>
 #include <Skill.hpp>
+#include <cstdlib>
+#include <iostream>
+#include <ctime>
+#include <vector>
+#include <string>
 
-void my_awesome_callback(const Alice::Request& request,
-                         Alice::Response& response) {
-  if (request.Command() == "Hello") {
-    Alice::Button first_button("Print on button", {}, "http://example.com/",
-                               true);
-    Alice::Button second_button("Print on button", {}, "http://example.com/",
-                                true);
-    response.PushButton(first_button);
-    response.PushButton(second_button);
-    Alice::ButtonPicture button_picture("Print on button",
-                                        "http://example.com/", {});
-    Alice::Card card("BigImage", "1027858/46r960da47f60207e924",
-                     "Title for image", "Description of image", button_picture);
-    response.SetCard(card);
-    response.SetText("Hi, dear friend!");
-    response.SetTts("Hi, dear friend!");
-    response.SetEndSession(false);
-  }
-  return;
+int Nod(int a, int b)
+{
+    while (a != b)
+    {
+        if (a > b)
+        {
+            a = a - b;
+        }
+        else
+        {
+            b = b - a;
+        }
+    }
+    return a;
 }
 
-void buy_elephant_callback(const Alice::Request& request,
-                           Alice::Response& response) {
-  /*const auto& session = request.Session();
-  if (session.IsNew() == true) {
-    response.SetText("Hi, buy an elephant!");
-    response.SetTts("Hi, buy an elephant!");
-    Alice::Button button(
-        "Ok", {},
-        "https://yandex.ru/images/"
-        "search?pos=1&img_url=https%3A%2F%2Fsummerboard.ru%2Fimages%"
-        "2Felephants_wallpapers%2F39_elephant.jpg&text=%D1%84%D0%BE%D1%82%D0%"
-        "BE%20%D1%81%D0%BB%D0%BE%D0%BD%D0%B0&lr=213&rpt=simage",
-        true);
-    response.PushButton(button);
-    response.SetEndSession(false);
-    return;
-  }*/
-  if (request.RequestType() == Alice::Request::Type::SimpleUtterance) {
-    std::string title;
-    if (request.Command() == "") {
-      title = "Купи слона!";
-    } else {
-      title =
-          "Все говорят " + request.Command() + ", а ты купи слона!";
+bool Consistency(const int b1, const int mod1, const int b2, const int mod2)
+{
+    return ((abs(b1 - b2) % Nod(mod1, mod2)) == 0);
+}
+std::vector<int> RandomCoef(size_t n)
+{
+    std::vector<int> ans;
+    for (size_t i = 0; i < n; ++i)
+    {
+        ans.push_back(rand() % 20);
     }
+    return ans;
+}
+
+std::vector<int> RandomMods(size_t n, std::vector<int> coef)
+{
+    std::vector<int>ans;
+    size_t area = n * 15;
+    int a = rand() % area;
+    ans.push_back(a);
+    while (ans.size() != n)
+    {
+        bool flag = true;
+        a = rand() % area;
+        for (size_t i = 0; i < ans.size(); ++i)
+        {
+            if (!Consistency(coef[i], ans[i], coef[i + 1], a))
+            {
+                flag = false;
+                break;
+            }
+        }
+        if (flag)
+        {
+            ans.push_back(a);
+        }
+    }
+    return ans;
+}
+
+int ReverseEl(const int a)
+{
+    for (size_t i = rand() % 10; i > 0; --i)
+    {
+        if (Nod(a, i) == 1)
+        {
+            return i;
+        }
+    }
+    return 1;
+}
+
+std::vector<int> VectorReEl(const size_t n, const std::vector<int> v)
+{
+    std::vector<int> ans;
+    for (size_t i = 0; i < n; ++i)
+    {
+        ans.push_back(ReverseEl(v[i]));
+    }
+}
+
+std::vector<std::string> Answer(std::vector<int>& b, const std::vector<int> mod,
+    const std::vector<int> xc)
+{
+    std::vector<std::string> ans;
+    std::string buf;
+    for (size_t i = 0; i < b.size(); ++i)
+    {
+        if (xc[i] != 1)
+        {
+            buf = std::to_string(xc[i]);
+        }
+        buf += "x ≡ ";
+        b[i] *= xc[i];
+        buf += std::to_string(b[i]);
+        buf += "(mod ";
+        buf += std::to_string(mod[i]);
+        buf += ")";
+        ans.push_back(buf);
+        buf.clear();
+    }
+    return ans;
+}
+void system_of_equations_callback(const Alice::Request& request,
+    Alice::Response& response) {
+    std::srand(std::time(nullptr));
+    std::string title;
+    title = "Привет! Я создаю совместные системы сравнений.";
+    title += "Из ск+ольких будет состоять Ваша?";
     response.SetText(title);
     response.SetTts(title);
-    Alice::Button button("Я сдаюсь", {"json"}, true);
-    response.PushButton(button);
-  } else {
-    Alice::ButtonPicture button_picture(
-        "",
-        "http://pngimg.com/uploads/elephants/elephants_PNG18808.png", {"json"});
-    Alice::Card card("BigImage", "213044/0bd9aa9bce3a08478953", "", "",
-                     button_picture);
-    response.SetCard(card);
-    response.SetEndSession(true);
-  }
+    std::string command = request.Command();
+    size_t n = std::stoi(command);
+    if (n > 0) {
+        std::vector<int> b = RandomCoef(n);
+        std::vector<int> mod = RandomMods(n, b);
+        std::vector<int> xc = VectorReEl(n, mod);
+        std::vector<std::string> ans = Answer(b, mod, xc);
+        for (size_t i = 0; i < n; ++i)
+        {
+            response.SetText(ans[i]);
+        }
+    }
 }
 
 int main() {
-  Skill s;
-  s.SetCallback(buy_elephant_callback);
-  s.Run();
-  return 0;
+    Skill s;
+    s.SetCallback(system_of_equations_callback);
+    s.Run();
+    return 0;
 }
