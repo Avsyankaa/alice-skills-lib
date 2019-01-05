@@ -28,7 +28,7 @@ bool Consistency(const int b1, const int mod1, const int b2, const int mod2)
 {
     return ((abs(b1 - b2) % Nod(mod1, mod2)) == 0);
 }
-std::vector<int> RandomCoef(size_t n)
+std::vector<int> RandomCoef(const int n)
 {
     std::vector<int> ans;
     for (size_t i = 0; i < n; ++i)
@@ -38,7 +38,7 @@ std::vector<int> RandomCoef(size_t n)
     return ans;
 }
 
-std::vector<int> RandomMods(size_t n, std::vector<int> coef)
+std::vector<int> RandomMods(int n, std::vector<int> coef)
 {
     std::vector<int>ans;
     size_t area = n * 15;
@@ -76,7 +76,7 @@ int ReverseEl(const int a)
     return 1;
 }
 
-std::vector<int> VectorReEl(const size_t n, const std::vector<int> v)
+std::vector<int> VectorReEl(const int n, const std::vector<int> v)
 {
     std::vector<int> ans;
     for (size_t i = 0; i < n; ++i)
@@ -116,13 +116,13 @@ void system_of_equations_callback(const Alice::Request& request,
     response.SetText(title);
     response.SetTts(title);
     std::string command = request.Command();
-    size_t n = std::stoi(command);
+    int n = std::stoi(command);
     if (n > 0) {
         std::vector<int> b = RandomCoef(n);
         std::vector<int> mod = RandomMods(n, b);
         std::vector<int> xc = VectorReEl(n, mod);
         std::vector<std::string> ans = Answer(b, mod, xc);
-        for (size_t i = 0; i < n; ++i)
+        for (int i = 0; i < n; ++i)
         {
             response.SetText(ans[i]);
         }
