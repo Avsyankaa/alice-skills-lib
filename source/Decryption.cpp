@@ -1,4 +1,4 @@
-#include <decryption.hpp>
+#include <Decryption.hpp>
 
 __uint32_t Get32bitsFromHexText(std::string& text);
 
