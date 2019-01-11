@@ -1,4 +1,4 @@
-#include <encryption.hpp>
+#include <Encryption.hpp>
 
 void FormatText(std::string& text);
 
