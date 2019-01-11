@@ -44,7 +44,8 @@ void FormatText(std::string& text)
     }
 }
 
-__uint32_t Get32bits(std::string& text) {
+__uint32_t Get32bits(std::string& text)
+{
     __uint32_t bits = 0x00000000;
     for (size_t symbol = 0; symbol < BLOCK_SIZE/8; symbol++)
     {
@@ -76,5 +77,14 @@ std::string IntToHexStr(const __uint32_t value)
     std::stringstream stream;
     stream << std::hex << value;
     std::string str = stream.str();
+    if (str.size() < 8)
+    {
+        std::string zeros;
+        for (size_t i = 0; i < 8 - str.size(); i++)
+        {
+            zeros += '0';
+        }
+        str = zeros + str;
+    }
     return str;
 }
