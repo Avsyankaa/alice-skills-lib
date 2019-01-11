@@ -31,7 +31,7 @@ bool Consistency(const int b1, const int mod1, const int b2, const int mod2)
 std::vector<int> RandomCoef(const int n)
 {
     std::vector<int> ans;
-    for (size_t i = 0; i < n; ++i)
+    for (int i = 0; i < n; ++i)
     {
         ans.push_back(rand() % 20);
     }
@@ -111,27 +111,25 @@ std::string Answer(std::vector<int>& b, const std::vector<int> mod,
 
 void system_of_equations_callback(const Alice::Request& request,
     Alice::Response& response) {
-    if (request.RequestType() == Alice::Request::Type::SimpleUtterance) {
-        std::srand(std::time(nullptr));
-        std::string title;
-        if (request.Command() == "") {
-            title = "Привет! Я создаю совместные системы сравнений.";
-            title += "Из ск+ольких будет состоять Ваша?";
+    std::srand(std::time(nullptr));
+    std::string title;
+    if (request.Command() == "") {
+        title = "Привет! Я создаю совместные системы сравнений.";
+        title += "Из ск+ольких будет состоять Ваша?";
+    } else {
+        std::string command = request.Command();
+        size_t n = std::stoi(command);
+        if (n > 0) {
+            std::vector<int> b = RandomCoef(n);
+            std::vector<int> mod = RandomMods(n, b);
+            std::vector<int> xc = VectorReEl(n, mod);
+            title = Answer(b, mod, xc);
         } else {
-            std::string command = request.Command();
-            size_t n = std::stoi(command);
-            if (n > 0) {
-                std::vector<int> b = RandomСoef(n);
-                std::vector<int> mod = RandomMods(n, b);
-                std::vector<int> xc = VectorReEl(n, mod);
-                title = Answer(b, mod, xc);
-            } else {
-                title = "С таким числом не систему не составить. Попробуйте еще раз."
-            }
+            title = "С таким числом не систему не составить. Попробуйте еще раз."
         }
-        response.SetText(title);
-        response.SetTts(title);
     }
+    response.SetText(title);
+    response.SetTts(title);
 }
 
 int main() {
