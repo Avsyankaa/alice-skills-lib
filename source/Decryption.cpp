@@ -1,3 +1,4 @@
+// Copyright 2019 SemenAndreev
 #include <Decryption.hpp>
 
 __uint32_t Get32bitsFromHexText(std::string& text);
