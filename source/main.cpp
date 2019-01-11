@@ -133,27 +133,6 @@ void system_of_equations_callback(const Alice::Request& request,
         response.SetTts(title);
     }
 }
-void system_of_equations_callback(const Alice::Request& request,
-    Alice::Response& response) {
-    std::srand(std::time(nullptr));
-    std::string title;
-    title = "Привет! Я создаю совместные системы сравнений.";
-    title += "Из ск+ольких будет состоять Ваша?";
-    response.SetText(title);
-    response.SetTts(title);
-    std::string command = request.Command();
-    int n = std::stoi(command);
-    if (n > 0) {
-        std::vector<int> b = RandomCoef(n);
-        std::vector<int> mod = RandomMods(n, b);
-        std::vector<int> xc = VectorReEl(n, mod);
-        std::vector<std::string> ans = Answer(b, mod, xc);
-        for (int i = 0; i < n; ++i)
-        {
-            response.SetText(ans[i]);
-        }
-    }
-}
 
 int main() {
     Skill s;
