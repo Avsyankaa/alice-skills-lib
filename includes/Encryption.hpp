@@ -1,3 +1,4 @@
+// Copyright 2019 SemenAndreev
 #ifndef ENCRYPTION_HPP
 #define ENCRYPTION_HPP
 
