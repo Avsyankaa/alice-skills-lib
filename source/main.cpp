@@ -85,10 +85,10 @@ std::vector<int> VectorReEl(const int n, const std::vector<int> v)
     }
 }
 
-std::vector<std::string> Answer(std::vector<int>& b, const std::vector<int> mod,
+std::string Answer(std::vector<int>& b, const std::vector<int> mod,
     const std::vector<int> xc)
 {
-    std::vector<std::string> ans;
+    std::string ans;
     std::string buf;
     for (size_t i = 0; i < b.size(); ++i)
     {
@@ -102,10 +102,36 @@ std::vector<std::string> Answer(std::vector<int>& b, const std::vector<int> mod,
         buf += "(mod ";
         buf += std::to_string(mod[i]);
         buf += ")";
-        ans.push_back(buf);
+        ans += buf;
+        ans += '\n';
         buf.clear();
     }
     return ans;
+}
+
+void system_of_equations_callback(const Alice::Request& request,
+    Alice::Response& response) {
+    if (request.RequestType() == Alice::Request::Type::SimpleUtterance) {
+        std::srand(std::time(nullptr));
+        std::string title;
+        if (request.Command() == "") {
+            title = "Привет! Я создаю совместные системы сравнений.";
+            title += "Из ск+ольких будет состоять Ваша?";
+        } else {
+            std::string command = request.Command();
+            size_t n = std::stoi(command);
+            if (n > 0) {
+                std::vector<int> b = RandomСoef(n);
+                std::vector<int> mod = RandomMods(n, b);
+                std::vector<int> xc = VectorReEl(n, mod);
+                title = Answer(b, mod, xc);
+            } else {
+                title = "С таким числом не систему не составить. Попробуйте еще раз."
+            }
+        }
+        response.SetText(title);
+        response.SetTts(title);
+    }
 }
 void system_of_equations_callback(const Alice::Request& request,
     Alice::Response& response) {
