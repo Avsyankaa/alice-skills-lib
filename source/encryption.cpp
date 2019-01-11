@@ -1,3 +1,4 @@
+// Copyright 2019 SemenAndreev
 #include <encryption.hpp>
 
 void FormatText(std::string& text);
