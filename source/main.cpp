@@ -127,7 +127,6 @@ void system_of_equations_callback(const Alice::Request& request,
         } else {
             title = "С таким числом не систему не составить. Попробуйте еще раз."
         }
-    }
     response.SetText(title);
     response.SetTts(title);
 }
