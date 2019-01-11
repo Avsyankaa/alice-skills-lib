@@ -1,85 +1,90 @@
 #include <Decryption.hpp>
 
-__uint32_t Get32bitsFromHexText(std::string& text);
+void FormatText(std::string& text);
 
-void CropHexText(std::string& text);
+__uint32_t Get32bits(std::string& text);
 
-void DecryptionAlgorithm(__uint32_t& firstBlock, __uint32_t& secondBlock, const __uint32_t key);
+void CropText(std::string& text);
 
-std::string IntToString(__uint32_t value);
+void EncryptionAlgorithm(__uint32_t& firstBlock, __uint32_t& secondBlock, const __uint32_t key);
 
-void FormatString(std::string& string);
+std::string IntToHexStr(const __uint32_t value);
 
-std::string Decryption(std::string& cryptoText, const __uint32_t key)
+std::string Encryption(std::string& text, const __uint32_t key)
 {
-    std::string openText;
-    while (!cryptoText.empty())
+    std::string source = text;
+    FormatText(source);
+    std::string cryptoText;
+    while (!source.empty())
     {
-        __uint32_t firstBlock = Get32bitsFromHexText(cryptoText);
-        CropHexText(cryptoText);
-        __uint32_t secondBlock = Get32bitsFromHexText(cryptoText);
-        CropHexText(cryptoText);
+        __uint32_t firstBlock = Get32bits(source);
+        CropText(source);
+        __uint32_t secondBlock = Get32bits(source);
+        CropText(source);
         for (size_t round = 0; round < N; round++)
         {
-            DecryptionAlgorithm(firstBlock, secondBlock, key);
-            DecryptionAlgorithm(secondBlock, firstBlock, key);
+            EncryptionAlgorithm(firstBlock, secondBlock, key);
+            EncryptionAlgorithm(secondBlock, firstBlock, key);
         }
-        openText += IntToString(firstBlock);
-        openText += IntToString(secondBlock);
+        cryptoText += IntToHexStr(firstBlock);
+        cryptoText += IntToHexStr(secondBlock);
     }
-    FormatString(openText);
-    return openText;
+    return cryptoText;
 }
 
-__uint32_t Get32bitsFromHexText(std::string& text)
+void FormatText(std::string& text)
 {
-    std::stringstream stream;
-    for (size_t i = 0; i < 2*BLOCK_SIZE/8; i++)
+    if (text.size()%(BLOCK_SIZE/8) != 0)
     {
-        stream << std::hex << text[i];
+        size_t numOfNeededSymbols = text.size()%(BLOCK_SIZE/8);
+        for (size_t len = 0; len <= numOfNeededSymbols; len++)
+        {
+            text[text.size() + len] = 0;
+        }
     }
-    __uint32_t binaryBlock;
-    stream >> binaryBlock;
-    return binaryBlock;
 }
 
-void CropHexText(std::string& text)
+__uint32_t Get32bits(std::string& text)
+{
+    __uint32_t bits = 0x00000000;
+    for (size_t symbol = 0; symbol < BLOCK_SIZE/8; symbol++)
+    {
+        bits |= text[symbol];
+        bits = CircleRotation(bits, 8*sizeof(char));
+    }
+    return bits;
+}
+
+void CropText(std::string& text)
 {
     std::string croped;
-    for (size_t i = 2*BLOCK_SIZE/8; i < text.size(); i++)
+    for (size_t i = BLOCK_SIZE/8; i < text.size(); i++)
     {
         croped += text[i];
     }
     text = croped;
 }
 
-void DecryptionAlgorithm(__uint32_t& firstBlock, __uint32_t& secondBlock, const __uint32_t key)
+void EncryptionAlgorithm(__uint32_t& firstBlock, __uint32_t& secondBlock, const __uint32_t key)
 {
-    firstBlock = ModSubtruction(firstBlock, secondBlock, MODULE);
-    firstBlock = CircleRotation(firstBlock, BLOCK_SIZE - ROTATION_INDEX);
-    secondBlock = XOR(secondBlock, key);
+    firstBlock = XOR(firstBlock, key);
+    secondBlock = CircleRotation(secondBlock, ROTATION_INDEX);
+    secondBlock = ModAdditation(firstBlock, secondBlock, MODULE);
 }
 
-std::string IntToString(__uint32_t value)
+std::string IntToHexStr(const __uint32_t value)
 {
-    std::string str;
-    for (size_t symbol = 0; symbol < BLOCK_SIZE/8; symbol++)
+    std::stringstream stream;
+    stream << std::hex << value;
+    std::string str = stream.str();
+    if (str.size() < 8)
     {
-        char ch = 0x00;
-        ch |= (char)CircleRotation(value, symbol*(8*sizeof(char)));
-        str += ch;
+        std::string zeros;
+        for (size_t i = 0; i < 8 - str.size(); i++)
+        {
+            zeros += '0';
+        }
+        str = zeros + str;
     }
     return str;
-}
-
-void FormatString(std::string& str)
-{
-    std::string formated;
-    size_t i = 0;
-    while (str[i])
-    {
-        formated += str[i];
-        i++;
-    }
-    str = formated;
 }
