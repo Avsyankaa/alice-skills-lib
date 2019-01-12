@@ -3,7 +3,6 @@
 #include <Response.hpp>
 #include <Skill.hpp>
 #include <cstdlib>
-#include <iostream>
 #include <ctime>
 #include <vector>
 #include <string>
@@ -116,7 +115,8 @@ void system_of_equations_callback(const Alice::Request& request,
     if (request.Command() == "") {
         title = "Привет! Я создаю совместные системы сравнений.";
         title += "Из ск+ольких будет состоять Ваша?";
-    } else {
+    }
+    else {
         std::string command = request.Command();
         size_t n = std::stoi(command);
         if (n > 0) {
@@ -124,14 +124,17 @@ void system_of_equations_callback(const Alice::Request& request,
             std::vector<int> mod = RandomMods(n, b);
             std::vector<int> xc = VectorReEl(n, mod);
             title = Answer(b, mod, xc);
-        } else {
-            title = "С таким числом не систему не составить. Попробуйте еще раз."
         }
-    response.SetText(title);
-    response.SetTts(title);
+        else {
+            title = "С таким числом не систему не составить. Попробуйте еще раз.";
+        }
+        response.SetText(title);
+        response.SetTts(title);
+    }
 }
 
-int main() {
+int main()
+{
     Skill s;
     s.SetCallback(system_of_equations_callback);
     s.Run();
